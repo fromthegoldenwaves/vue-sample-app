@@ -8,7 +8,6 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    // component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
         path: '',
