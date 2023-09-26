@@ -1,12 +1,12 @@
 import http from "../http-common";
 
 class userService {
-    get(email : String) {
-        return http.get(`/user/${email}`);
+    signin(data: Object) {
+        return http.post("/auth/signin", data);
     }
 
-    create(data: Object) {
-        return http.post("/", data);
+    signup(data: Object) {
+        return http.post("/auth/signup", data);
     }
 }
 

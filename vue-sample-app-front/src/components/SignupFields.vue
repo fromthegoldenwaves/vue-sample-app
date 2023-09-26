@@ -35,6 +35,7 @@
           :loading="loading"
           block
           size="large"
+          type="submit"
           color="success"
           variant="elevated"
         >
@@ -61,24 +62,19 @@
 
         this.loading = true
 
-        const data = {
+        const req = {
           email: this.email,
           password: this.password,
           user_name: this.name
         };
-
-        console.log(data);
-
-        userService.create(data).then(response =>{
+        userService.signup(req).then(response =>{
           console.log(response.data)
-          this.email = null
-          this.password=null
-          this.name=null
+          this.$router.push({path: '/'})
         }).catch(e => {
           console.log(e);
+          this.loading = false
         });
 
-        // setTimeout(() => (this.loading = false), 2000)
 
       },
       required (v: boolean) {

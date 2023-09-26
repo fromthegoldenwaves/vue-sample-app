@@ -53,17 +53,19 @@
 
       this.loading = true
 
-      const userMail = this.email? this.email : '';
+      const req = { email: this.email };
 
-      userService.get(userMail).then(response =>{
+      userService.signin(req).then(response =>{
         console.log(response.data);
+        const userName = response.data.username;
+        // 画面遷移
+        this.$router.push({path: `/myPage/${userName}`})
       }).catch(e => {
         console.log(e);
+        this.loading = false
       });
 
       // setTimeout(() => (this.loading = false), 2000)
-      // 画面遷移
-      // this.$router.push({path: '/myPage/testuser'})
     },
 
     required (v: boolean) {
