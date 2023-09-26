@@ -40,16 +40,19 @@ app.listen(PORT, () => {
 
 function initial() {
   Role.create({
+    // 照会のみ
     id: 1,
     name: "user"
   });
  
   Role.create({
+    // 編集・出力まで
     id: 2,
     name: "moderator"
   });
  
   Role.create({
+    // 入力・削除まで
     id: 3,
     name: "admin"
   });
