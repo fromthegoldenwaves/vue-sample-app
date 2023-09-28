@@ -38,7 +38,7 @@
 </template>
   
 <script lang="ts">
-  import userService from '@/services/userService';
+  import authService from '@/services/authService';
   
   export default {
     data:()=>({
@@ -55,17 +55,16 @@
 
       const req = { email: this.email };
 
-      userService.signin(req).then(response =>{
+      authService.signin(req).then(response =>{
         console.log(response.data);
-        const userName = response.data.username;
         // 画面遷移
-        this.$router.push({path: `/myPage/${userName}`})
+        this.$router.push({path: "/myPage"})
       }).catch(e => {
         console.log(e);
         this.loading = false
       });
+      // this.$router.push({path: "/main"})
 
-      // setTimeout(() => (this.loading = false), 2000)
     },
 
     required (v: boolean) {

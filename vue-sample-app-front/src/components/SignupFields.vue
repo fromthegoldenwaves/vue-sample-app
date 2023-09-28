@@ -46,7 +46,7 @@
 </template>
   
 <script lang="ts">
-  import userService from '@/services/userService'
+  import authService from '@/services/authService'
   
   export default {
     data:()=>({
@@ -62,19 +62,25 @@
 
         this.loading = true
 
+        // authService.test().then(response=>{
+        //   console.log(response);
+        // }).catch(e => {
+        //   this.loading = false;
+        //   console.log(e);
+        // })
+
         const req = {
           email: this.email,
           password: this.password,
-          user_name: this.name
+          username: this.name
         };
-        userService.signup(req).then(response =>{
+        authService.signup(req).then(response =>{
           console.log(response.data)
           this.$router.push({path: '/'})
         }).catch(e => {
           console.log(e);
           this.loading = false
         });
-
 
       },
       required (v: boolean) {
