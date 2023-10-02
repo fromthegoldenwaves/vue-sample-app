@@ -1,5 +1,5 @@
 <template>
-    <v-form v-model="form" @submit.prevent="onSubmit">
+    <v-form v-model="form" @submit.prevent="handleSignin">
       <v-container>
         <v-text-field
           v-model="name"
@@ -26,6 +26,7 @@
           clearable
           variant="underlined"
           label="Password"
+          type="password"
           prepend-inner-icon="mdi-lock"
         />
       </v-container>
@@ -42,6 +43,13 @@
           Sign Up
         </v-btn>
       </v-card-actions>
+      <v-card
+        v-if="message"
+        class="alert"
+        :color="successful? 'success' : 'danger'"
+      >
+      {{ message }}
+      </v-card>
     </v-form>
 </template>
   
@@ -49,25 +57,21 @@
   import authService from '@/services/authService'
   
   export default {
+    name: 'signin',
     data:()=>({
       form: false,
       name: null,
       email: null,
       password: null,
       loading: false,
+      successful: false,
+      message:''
     }),
     methods: {
-      onSubmit () {
+      handleSignin () {
         if (!this.form) return
 
         this.loading = true
-
-        // authService.test().then(response=>{
-        //   console.log(response);
-        // }).catch(e => {
-        //   this.loading = false;
-        //   console.log(e);
-        // })
 
         const req = {
           email: this.email,
@@ -75,11 +79,14 @@
           username: this.name
         };
         authService.signup(req).then(response =>{
-          console.log(response.data)
-          this.$router.push({path: '/'})
-        }).catch(e => {
-          console.log(e);
-          this.loading = false
+          console.log(response)
+          this.message = response.message;
+          this.loading = false;
+          this.successful = true;
+        }).catch(error => {
+          this.message = error.response?.data?.message;
+          this.loading = false;
+          this.successful = false;
         });
 
       },

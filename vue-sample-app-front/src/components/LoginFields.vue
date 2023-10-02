@@ -17,6 +17,7 @@
             clearable
             variant="underlined"
             label="Password"
+            type="password"
             prepend-inner-icon="mdi-lock"
           />
       </v-container>
@@ -56,7 +57,7 @@
       const req = { email: this.email };
 
       authService.signin(req).then(response =>{
-        console.log(response.data);
+        console.log(response);
         // 画面遷移
         this.$router.push({path: "/myPage"})
       }).catch(e => {

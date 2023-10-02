@@ -42,21 +42,20 @@ export const auth =  {
         loginSuccess(state : any, user : any) {
             state.status.loggedIn = true;
             state.user = user;
-          },
-          loginFailure(state : any) {
+        },
+        loginFailure(state : any) {
             state.status.loggedIn = false;
             state.user = null;
-          },
-          logout(state : any) {
+        },
+        logout(state : any) {
             state.status.loggedIn = false;
             state.user = null;
-          },
-          registerSuccess(state : any) {
+        },
+        registerSuccess(state : any) {
             state.status.loggedIn = false;
-          },
-          registerFailure(state : any) {
+        },
+        registerFailure(state : any) {
             state.status.loggedIn = false;
-          }
-      
+        }
     }
 }
