@@ -17,10 +17,16 @@
     password: { required }
   }
   const message = ref('') ;
-  const form = ref(false) ;
   const isLoading = ref(false);
   const isSuccess = ref(false);
   const v$ = useVuelidate(rules, state);
+
+  async function validate() {
+    if (!await v$.value.$validate()) {
+      return
+    }
+    await handleSignin();
+  }
 
   async function handleSignin() {
     isLoading.value = true;
@@ -47,7 +53,7 @@
   
 </script>
 <template>
-    <v-form v-model="form" @submit.prevent="handleSignin">
+    <v-form @submit.prevent="validate">
       <v-container>
         <v-text-field
           v-model="state.username"
@@ -57,7 +63,7 @@
           label="User Name"
           prepend-inner-icon="mdi-account"
           required
-          :error-message="v$.username.$errors.map(e => e.$message)"
+          :error-messages="v$.username.$errors.map(e => e.$message)"
           @input = "v$.username.$touch"
           @blur = "v$.username.$touch"
         />
@@ -69,7 +75,7 @@
           label="E-mail"
           prepend-inner-icon="mdi-email"
           required
-          :error-message="v$.email.$errors.map(e => e.$message)"
+          :error-messages="v$.email.$errors.map(e => e.$message)"
           @input = "v$.email.$touch"
           @blur = "v$.email.$touch"
         />
@@ -82,14 +88,13 @@
           type="password"
           prepend-inner-icon="mdi-lock"
           required
-          :error-message="v$.password.$errors.map(e => e.$message)"
+          :error-messages="v$.password.$errors.map(e => e.$message)"
           @input = "v$.password.$touch"
           @blur = "v$.password.$touch"
         />
       </v-container>
       <v-card-actions>
         <v-btn
-          :disabled="!form"
           :loading="isLoading"
           block
           size="large"
