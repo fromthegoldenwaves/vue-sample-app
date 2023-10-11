@@ -32,7 +32,6 @@
     isLoading.value = true;
 
     authService.signup(state).then(response =>{
-          console.log(response)
           message.value = response.message;
           isSuccess.value = true;
           clear();
@@ -108,9 +107,9 @@
     </v-form>
     <v-card
         v-if="message"
-        class="alert"
-        :color="isSuccess? 'success' : 'danger'"
-        text={{ message }}
+        class="text-center"
+        :color="isSuccess? 'success' : 'error'"
       >
+      {{ message }}
       </v-card>
 </template>

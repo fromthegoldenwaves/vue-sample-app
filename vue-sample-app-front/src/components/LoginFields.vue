@@ -3,6 +3,7 @@
   import authService from '@/services/authService';
   import { useVuelidate } from '@vuelidate/core'
   import { email, required } from '@vuelidate/validators'
+  import { useRouter } from 'vue-router'
 
   const initialState = {
     email: '',
@@ -18,6 +19,8 @@
   const isLoading = ref(false);
   const v$ = useVuelidate(rules, state);
 
+  const router = useRouter();
+
   async function validate() {
     if (!await v$.value.$validate()) {
       return
@@ -30,19 +33,13 @@
 
     authService.signin(state).then(response =>{
           console.log(response)
-          isSuccess.value = true;
-          clear();
+          isLoading.value = false;
+          // 画面遷移
+          router.push({ path: '/myPage' });
         }).catch(error => {
           message.value = error.response?.data?.message;
+          isLoading.value = false;
         });
-    isLoading.value = false;
-  }
-
-  function clear () {
-    v$.value.$reset()
-    for (const [key, value] of Object.entries(initialState)) {
-      state[key] = value
-    }
   }
 </script>
 
