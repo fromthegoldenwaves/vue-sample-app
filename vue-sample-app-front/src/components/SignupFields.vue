@@ -25,23 +25,22 @@
     if (!await v$.value.$validate()) {
       return
     }
-    await handleSignin();
+    await handleSignup();
   }
 
-  async function handleSignin() {
+  async function handleSignup() {
     isLoading.value = true;
 
     authService.signup(state).then(response =>{
           console.log(response)
           message.value = response.message;
-          isLoading.value = false;
           isSuccess.value = true;
           clear();
         }).catch(error => {
           message.value = error.response?.data?.message;
-          isLoading.value = false;
           isSuccess.value = false;
         });
+    isLoading.value = false;
   }
 
   function clear () {
@@ -96,6 +95,7 @@
       <v-card-actions>
         <v-btn
           :loading="isLoading"
+          :disabled="isLoading"
           block
           size="large"
           type="submit"
@@ -105,12 +105,12 @@
           Sign Up
         </v-btn>
       </v-card-actions>
-      <v-card
+    </v-form>
+    <v-card
         v-if="message"
         class="alert"
         :color="isSuccess? 'success' : 'danger'"
+        text={{ message }}
       >
-      {{ message }}
       </v-card>
-    </v-form>
 </template>
